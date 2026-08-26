@@ -1,0 +1,12 @@
+[user]
+	email = ouajih.safae@gmail.com
+	name = Safae Ouajih
+[color]
+	ui = auto
+[alias]
+	st = status
+	br = branch
+	co = checkout
+	ci = commit
+[core]
+	editor = nvim

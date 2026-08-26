@@ -4,3 +4,10 @@
     goes-to: .gitconfig
     profile: sparow
 }
+
+{
+    name: gitconfig
+    fetch: local
+    goes-to: .gitconfig
+    profile: ouajih
+}
