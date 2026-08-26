@@ -1,0 +1,6 @@
+{
+    name: gitconfig
+    fetch: local
+    goes-to: .gitconfig
+    profile: sparow
+}

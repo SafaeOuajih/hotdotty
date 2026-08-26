@@ -1,0 +1,14 @@
+[user]
+	email = safae.ouajih@parrot.com
+	name = Safae Ouajih
+[color]
+	ui = auto
+[alias]
+	st = status
+	br = branch
+	co = checkout
+	ci = commit
+[core]
+	editor = nvim
+[http "https://qpm-git.qualcomm.com/"]
+	followRedirects = true
