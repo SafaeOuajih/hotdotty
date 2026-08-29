@@ -1,3 +1,4 @@
 .hotdot/stage/
 .hotdot/state
 .hotdot/active_profile
+stowable/nvim/
