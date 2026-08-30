@@ -2,3 +2,4 @@
 .hotdot/state
 .hotdot/active_profile
 stowable/nvim/
+stowable/bashrc.d/
