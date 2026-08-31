@@ -1,0 +1,7 @@
+{
+    name: vscode
+    fetch: git@github.com:SafaeOuajih/devtool-prv.git
+    goes-to: .config/Code/User/settings.json
+    path: vscode/settings.json
+    profile: sparow
+}
