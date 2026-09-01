@@ -1,0 +1,7 @@
+{
+    name: gitignore
+    fetch: git@github.com:SafaeOuajih/devtool-prv.git
+    goes-to: .config/git/ignore
+    path: git/ignore
+    profile: sparow
+}

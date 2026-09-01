@@ -1,7 +1,8 @@
 {
     name: gitconfig
-    fetch: local
+    fetch: git@github.com:SafaeOuajih/devtool-prv.git
     goes-to: .gitconfig
+    path: git/.gitconfig
     profile: sparow
 }
 
