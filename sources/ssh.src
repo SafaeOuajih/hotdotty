@@ -1,0 +1,7 @@
+{
+    name: ssh
+    fetch: git@github.com:SafaeOuajih/devtool-prv.git
+    goes-to: .ssh/config
+    path: .ssh/config
+    profile: sparow
+}
