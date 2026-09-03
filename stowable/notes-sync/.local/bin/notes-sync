@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+# notes-sync - commit the notes vault daily, push it weekly.
+#
+# Run by the notes-sync.timer systemd user unit (every 15min), and safe to
+# run by hand. Designed to be quiet and non-fatal: a laptop with no network
+# still commits locally, and a later run pushes whatever piled up.
+
+set -uo pipefail
+
+VAULT="${NOTES_VAULT:-$HOME/notes}"
+PUSH_INTERVAL_DAYS=7
+
+cd "$VAULT" || {
+	echo "notes-sync: no vault at $VAULT" >&2
+	exit 1
+}
+
+git rev-parse --git-dir >/dev/null 2>&1 || {
+	echo "notes-sync: $VAULT is not a git repository" >&2
+	exit 1
+}
+
+# Commit at most once a day: skip if HEAD's commit is already dated today, so
+# the log gets one entry per day of activity instead of one per 15-min tick.
+today="$(date '+%Y-%m-%d')"
+last_commit_day="$(git log -1 --format=%cd --date=format:%Y-%m-%d 2>/dev/null || true)"
+if [[ -n "$(git status --porcelain)" && "$last_commit_day" != "$today" ]]; then
+	git add -A
+	git commit -q -m "notes: $today" || true
+fi
+
+# Nothing to push to yet - the repo is local-only until a remote is added.
+git remote get-url origin >/dev/null 2>&1 || exit 0
+
+branch="$(git symbolic-ref --quiet --short HEAD)" || {
+	echo "notes-sync: HEAD is not on a branch (mid-rebase/checkout?), skipping push" >&2
+	exit 1
+}
+
+# Push at most once a week, tracked via a local (unpushed) git-config marker.
+last_push="$(git config --local --get notes-sync.last-push 2>/dev/null || echo 0)"
+now="$(date +%s)"
+if (( (now - last_push) / 86400 < PUSH_INTERVAL_DAYS )); then
+	exit 0
+fi
+
+# Pull first so edits made on another machine do not turn into a rejected
+# push. --rebase keeps the history linear; --autostash covers the case where
+# today's commit was skipped but the tree is dirty anyway.
+git pull -q --rebase --autostash origin "$branch" 2>/dev/null
+
+# Offline is normal and not an error: the commits are safe locally and the
+# next run tries the push again.
+if git push -q origin "$branch" 2>/dev/null; then
+	git config --local notes-sync.last-push "$now"
+else
+	echo "notes-sync: push failed (offline?), commits kept locally" >&2
+fi

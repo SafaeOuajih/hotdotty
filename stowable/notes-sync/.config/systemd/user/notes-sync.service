@@ -1,0 +1,13 @@
+[Unit]
+Description=Commit and push the notes vault
+Documentation=file:%h/notes/README.md
+# Pushing needs the network; committing does not, and the script tolerates
+# a push failing, so this is a preference rather than a hard requirement.
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/bin/notes-sync
+# Keep the unit from hanging forever on a stalled git transport.
+TimeoutStartSec=120

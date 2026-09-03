@@ -1,0 +1,6 @@
+{
+    name: notes-sync
+    fetch: local
+    goes-to: .local/bin/notes-sync
+    profile: sparow
+}
