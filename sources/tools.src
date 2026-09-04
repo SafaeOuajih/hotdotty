@@ -1,0 +1,7 @@
+{
+    name: sparow_tools
+    fetch: git@github.com:SafaeOuajih/devtool-prv.git
+    goes-to: sparow_tools
+    path: sparow_tools
+    profile: sparow
+}
