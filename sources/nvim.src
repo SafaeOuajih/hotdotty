@@ -2,5 +2,5 @@
     name: nvim
     fetch: git@github.com:SafaeOuajih/nvim_cfg.git
     goes-to: .config/nvim
-    profile: sparow
+    profile: sparow,ouajih
 }
